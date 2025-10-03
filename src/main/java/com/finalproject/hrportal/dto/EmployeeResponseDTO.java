@@ -14,8 +14,10 @@ public class EmployeeResponseDTO {
     private String fullName;
     private String gender;
     private String roleKey;
+    private double ctc;
     private boolean isActive;
     private int projectId;
     private String skills;
     private double experience;
+    private String profileRole;
 }

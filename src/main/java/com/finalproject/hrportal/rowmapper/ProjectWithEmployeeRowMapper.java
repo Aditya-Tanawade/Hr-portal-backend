@@ -12,6 +12,7 @@ public class ProjectWithEmployeeRowMapper implements RowMapper<ProjectResponseDT
     @Override
     public ProjectResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
         ProjectResponseDTO dto = new ProjectResponseDTO();
+        dto.setProjectId(rs.getInt("project_id"));
         dto.setName(rs.getString("name"));
         dto.setStatus(ProjectStatus.valueOf(rs.getString("status")));
         dto.setBudgetBandMin(rs.getDouble("budget_band_min"));

@@ -61,6 +61,26 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public ProjectResponseDTO getAssignedProject(String pmId) {
+        String sql="SELECT e.employee_id, e.full_name, p.*\n" +
+                "FROM employee_details e\n" +
+                "INNER JOIN projects p ON p.project_id = e.project_id\n" +
+                "WHERE p.project_id = ? AND e.role_key='TEAMLEAD'";
+        int projectId=getProjectIdOfPM(pmId);
+        try {
+            return jdbcTemplate.queryForObject(sql, new ProjectWithEmployeeRowMapper(), projectId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException("NOt Assigned the Project To Team Lead");
+        }
+
+    }
+
+    private int getProjectIdOfPM(String pmId){
+        String sql="Select project_id from employee_details where employee_id=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,pmId);
+    }
+
+    @Override
     public Project getCurrentProjectById() {
         int latestProjectId = getNextProjectId() - 1;
         return jdbcTemplate.query(GET_PROJECT_BY_ID, new ProjectRowMapper(), latestProjectId)

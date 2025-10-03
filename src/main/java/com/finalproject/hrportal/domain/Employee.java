@@ -21,6 +21,9 @@ public class Employee {
     private int projectId;
     private String skills;
     private double experience;
+    private String profileRole;
     private String createdAt;
     private String updatedAt;
+
+
 }

@@ -21,8 +21,9 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         int projectId=rs.getInt("project_id");
         String skills=rs.getString("skills");
         double experience=rs.getDouble("experience");
+        String profileRole=rs.getString("PROFILE_ROLE");
         String createdAt=rs.getString("created_at");
         String updatedAt=rs.getString("updated_at");
-        return new Employee(employeeId,email,passwordHash,fullName,gender,roleKey,ctc,isActive,projectId,skills,experience,createdAt,updatedAt);
+        return new Employee(employeeId,email,passwordHash,fullName,gender,roleKey,ctc,isActive,projectId,skills,experience,profileRole,createdAt,updatedAt);
     }
 }

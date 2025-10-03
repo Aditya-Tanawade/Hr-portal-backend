@@ -13,10 +13,15 @@ public interface JobRequestRepository {
    int getHeadCountBasedOnJobRequestId(int jobRequestId);
    int getProjectIdByJobRequestId(int jobRequestId);
    int updateHeadCount(int jobRequestId);
-
-
-   // HR Portion
    List<JobRequest> getAllJobRequestByHrId(String hrId);
    boolean postJobOnPortal(int jobRequestId);
    List<JobRequest> getJobRequestByHrIdAndPriority(String hrId, String priority);
+
+    Integer getCountOfPendingRequest(String pmID);
+
+   Integer getTotalCountOfAllJobRequests(String loginPmId);
+
+   Integer getCountOfApprovedJobRequests(String loginPmId);
+
+   Integer getCountOfClosedJobRequests(String loginPmId);
 }

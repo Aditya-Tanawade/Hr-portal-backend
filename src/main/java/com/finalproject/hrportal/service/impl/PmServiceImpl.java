@@ -28,6 +28,11 @@ public class PmServiceImpl implements PmService {
         return projectRepository.createProject(projectRequestDTO,loginPmId);
     }
 
+    @Override
+    public ProjectResponseDTO getAssignedProject(String pmId) {
+        return projectRepository.getAssignedProject(pmId);
+    }
+
 
     @Override
     public List<String> getEmployeeByRole(String role) {
@@ -66,5 +71,43 @@ public class PmServiceImpl implements PmService {
     @Override
     public ProjectResponseDTO getProjectByIdWithTeamLeaderName(int projectId) {
         return  modelMapper.map(projectRepository.getProjectByIdWithTeamLeaderName(projectId),ProjectResponseDTO.class);
+    }
+
+    @Override
+    public Integer getCountOfActiveProjects(String pmId) {
+        return employeeRepository.getCountOfActiveProjects(pmId);
+    }
+
+    @Override
+    public Integer getCountOfPendingRequest(String pmID) {
+        return jobRequestRepository.getCountOfPendingRequest(pmID);
+    }
+
+    @Override
+    public Integer getCountOfBenchEmployee() {
+        return employeeRepository.getCountOfBenchEmployee();
+    }
+
+    @Override
+    public Integer getTotalCountOfAllJobRequests(String loginPmId) {
+        return jobRequestRepository.getTotalCountOfAllJobRequests(loginPmId);
+    }
+
+    @Override
+    public Integer getCountOfApprovedJobRequests(String loginPmId) {
+        return jobRequestRepository.getCountOfApprovedJobRequests(loginPmId);
+    }
+
+    @Override
+    public Integer getCountOfClosedJobRequests(String loginPmId) {
+        return jobRequestRepository.getCountOfClosedJobRequests(loginPmId);
+    }
+
+    @Override
+    public List<EmployeeResponseDTO> getAllTeamMembers(int projectId) {
+        return employeeRepository.getAllTeamMembers(projectId)
+                .stream()
+                .map(employee -> modelMapper.map(employee,EmployeeResponseDTO.class))
+                .collect(Collectors.toList());
     }
 }

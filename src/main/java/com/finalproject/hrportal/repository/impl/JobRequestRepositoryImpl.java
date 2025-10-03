@@ -100,5 +100,29 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
         return jdbcTemplate.query(sql,new JobRequestRowMapper(),hrId,priority);
     }
 
+    @Override
+    public Integer getCountOfPendingRequest(String pmID) {
+        String sql="Select count(*) FROM job_requests Where PROJECT_MANAGER_ID=? AND status='SUBMITTED'";
+        return jdbcTemplate.queryForObject(sql,Integer.class, pmID);
+    }
+
+    @Override
+    public Integer getTotalCountOfAllJobRequests(String loginPmId) {
+        String sql="Select COUNT(*) FROM job_requests WHERE PROJECT_MANAGER_ID=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
+    }
+
+    @Override
+    public Integer getCountOfApprovedJobRequests(String loginPmId) {
+        String sql="Select Count(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status='FORWARDED_TO_HR' ";
+        return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
+    }
+
+    @Override
+    public Integer getCountOfClosedJobRequests(String loginPmId) {
+        String sql="Select Count(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status='CLOSED' ";
+        return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
+    }
+
 
 }

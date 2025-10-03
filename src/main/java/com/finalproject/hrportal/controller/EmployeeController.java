@@ -3,15 +3,15 @@ package com.finalproject.hrportal.controller;
 import com.finalproject.hrportal.domain.Employee;
 import com.finalproject.hrportal.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employee")
+@CrossOrigin("*")
 public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
@@ -20,8 +20,8 @@ public class EmployeeController {
         return employeeRepository.getAllEmployee();
     }
 
-    @GetMapping("/fullname")
-    public String employeeName(String employeeId){
-        return "NOt FOUND ";
+    @GetMapping("/fullname/{employeeId}")
+    public ResponseEntity<String>employeeName(@PathVariable ("employeeId") String employeeId){
+        return ResponseEntity.ok(employeeRepository.getEmployeeName(employeeId));
     }
 }
