@@ -31,5 +31,16 @@ public class CandidateApplicationRepositoryImpl implements CandidateApplicationR
         return jdbcTemplate.update(sql, CandidateApplicationStatus.valueOf(status).toString(),jobRequestId,candidateId)>0;
     }
 
+    @Override
+    public Integer getCountOfAppliedCandidates(String hrId) {
+        String sql="SELECT COUNT(*) FROM candidate_applications where job_request_id IN  (select job_request_id from job_requests where hr_id=? AND status='POSTED')";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+    }
+
+    @Override
+    public Integer getCountOfShortlistedCandidates(String hrId) {
+        String sql="SELECT COUNT(*) FROM candidate_applications where job_request_id IN  (select job_request_id from job_requests where hr_id=? AND status='POSTED')AND status='SHORTLISTED'";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+    }
 
 }

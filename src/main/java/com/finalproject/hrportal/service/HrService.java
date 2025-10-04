@@ -23,4 +23,14 @@ public interface HrService {
     List<CandidateResponseDTO> getCandidatesByJobRequestId(int jobRequestId);
 
     boolean changeStatusOfCandidateToShortListed(int candidateId, int jobRequestId, String status);
+
+    Integer getCountOfJobRequests(String hrId);
+
+    Integer getCountOfPostedJobs(String hrId);
+
+    Integer getCountOfAppliedCandidates(String hrId);
+
+    Integer getCountOfShortlistedCandidates(String hrId);
+
+    Integer getCountOfPendingJobRequests(String hrId);
 }

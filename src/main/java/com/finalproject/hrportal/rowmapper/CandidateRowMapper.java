@@ -28,7 +28,8 @@ public class CandidateRowMapper implements RowMapper<Candidate> {
          String status=rs.getString("STATUS");
          LocalDate createdAt=rs.getDate("CREATED_AT").toLocalDate();
          LocalDate updatedAt=rs.getDate("UPDATED_AT").toLocalDate();
+         String profileRole=rs.getString("PROFILE_ROLE");
 
-         return new Candidate(candidateId,email,passwordHash,fullName,gender,expectedCtc,resumePath,totalExperience,noticePeriod,currentCompany,skills,status,createdAt,updatedAt);
+         return new Candidate(candidateId,email,passwordHash,fullName,gender,expectedCtc,resumePath,totalExperience,noticePeriod,currentCompany,skills,status,createdAt,updatedAt,profileRole);
     }
 }

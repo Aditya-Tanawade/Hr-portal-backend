@@ -13,14 +13,15 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("api/hr/")
+@RequestMapping("api/hr")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class HrController {
 
     private final HrService hrService;
 
-    @GetMapping("/job-requests")
-    public ResponseEntity<List<PmJobRequestResponseDTO>> getAllJobRequestByHrId(@RequestParam String hrId){
+    @GetMapping("/get-all/job-requests/{hrId}")
+    public ResponseEntity<List<PmJobRequestResponseDTO>> getAllJobRequestByHrId(@PathVariable ("hrId")String hrId){
         return ResponseEntity.ok(hrService.getAllJobRequestByHrId(hrId));
     }
 
@@ -71,9 +72,32 @@ public class HrController {
 
 
 
+    //dashboard count
+    @GetMapping("/dashboard/job-requests/{hrId}")
+    public ResponseEntity<Integer>getCountOfJobRequests(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfJobRequests(hrId));
+    }
+
+    @GetMapping("/dashboard/posted-jobs/{hrId}")
+    public ResponseEntity<Integer>getCountOfPostedJobs(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfPostedJobs(hrId));
+    }
 
 
+    @GetMapping("/dashboard/applied-candidates/{hrId}")
+    public ResponseEntity<Integer>getCountOfAppliedCandidates(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfAppliedCandidates(hrId));
+    }
 
+    @GetMapping("/dashboard/shortlisted-candidates/{hrId}")
+    public ResponseEntity<Integer>getCountOfShortlistedCandidates(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfShortlistedCandidates(hrId));
+    }
+
+    @GetMapping("/job-request-ui/pending-job-requests/{hrId}")
+    public ResponseEntity<Integer>getCountOfPendingJobRequests(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfPendingJobRequests(hrId));
+    }
 
 
 }

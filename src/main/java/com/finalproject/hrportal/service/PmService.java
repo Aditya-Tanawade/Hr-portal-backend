@@ -11,7 +11,7 @@ public interface PmService {
 
     List<String> getEmployeeByRole(String role);
     List<EmployeeResponseDTO> getEmployeesOnBench();
-    boolean setProjectIdToEmployee(int jobRequestId,String employeeId);
+    boolean setProjectIdToEmployee(int jobRequestId,int projectId,String employeeId);
     List<PmJobRequestResponseDTO> getAllJobRequestByPmId(String pmId);
     boolean forwardToHr(HrForwardDTO hrForwardDTO, int jobRequestId);
     ProjectResponseDTO getProjectByIdWithTeamLeaderName(int projectId);
@@ -27,4 +27,6 @@ public interface PmService {
     Integer getCountOfClosedJobRequests(String loginPmId);
 
     List<EmployeeResponseDTO> getAllTeamMembers(int projectId);
+
+    boolean declinedTheJobRequest(int jobRequestId);
 }

@@ -9,6 +9,7 @@ import com.finalproject.hrportal.service.PmService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,8 +48,8 @@ public class PmServiceImpl implements PmService {
     }
 
     @Override
-    public boolean setProjectIdToEmployee(int jobRequestId,String employeeId) {
-        int projectId=jobRequestRepository.getProjectIdByJobRequestId(jobRequestId);
+    @Transactional
+    public boolean setProjectIdToEmployee(int jobRequestId,int projectId,String employeeId) {
         int count =jobRequestRepository.updateHeadCount(jobRequestId);
         if(count >0) return projectRepository.setProjectIdToEmployee(projectId,employeeId);
         return false;
@@ -109,5 +110,10 @@ public class PmServiceImpl implements PmService {
                 .stream()
                 .map(employee -> modelMapper.map(employee,EmployeeResponseDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean declinedTheJobRequest(int jobRequestId) {
+        return jobRequestRepository.declinedTheJobRequest(jobRequestId);
     }
 }

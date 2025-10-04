@@ -26,4 +26,7 @@ public class Candidate {
     private String status;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+    private String profileRole;
+
+
 }

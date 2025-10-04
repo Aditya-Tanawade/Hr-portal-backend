@@ -5,7 +5,6 @@ import com.finalproject.hrportal.dto.*;
 import com.finalproject.hrportal.service.PmService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,17 +44,16 @@ public class PmController {
     }
 
     //TO Get ALL JobRequestByPmID
-    @GetMapping("/job-requests")
-    public ResponseEntity<List<PmJobRequestResponseDTO>>getAllJobRequestByPmId(@RequestParam String pmId){
+    @GetMapping("/job-requests/{pmId}")
+    public ResponseEntity<List<PmJobRequestResponseDTO>>getAllJobRequestByPmId(@PathVariable ("pmId")String pmId){
         return ResponseEntity.ok(pmService.getAllJobRequestByPmId(pmId));
     }
 
     //TO ASSIGN PROJECT TO RESPECTIVE EMPLOYEE ON BENCH reduce headCount
     @PatchMapping("/{jobRequestId}/assign-project")
-    public ResponseEntity<String>assignProject(@PathVariable("jobRequestId") int jobRequestId,@RequestParam String employeeId){
-
+    public ResponseEntity<String>assignProject(@PathVariable("jobRequestId") int jobRequestId,@RequestParam int projectId,@RequestParam String employeeId){
         System.out.println(jobRequestId);
-        if(pmService.setProjectIdToEmployee(jobRequestId,employeeId)){
+        if(pmService.setProjectIdToEmployee(jobRequestId,projectId,employeeId)){
             return ResponseEntity.ok("Project Assigned TO Employee Having Id " + employeeId);
         }
         return ResponseEntity.badRequest().body("Project Not Assigned To Employee");
@@ -67,6 +65,14 @@ public class PmController {
             return ResponseEntity.ok("Forwarded To Hr");
         }
         return ResponseEntity.ok("Failed To Forward ");
+    }
+
+    @PatchMapping("decline/job-request/{jobRequestId}")
+    public ResponseEntity<String>declinedTheJobRequest(@PathVariable("jobRequestId")int jobRequestId){
+        if(pmService.declinedTheJobRequest(jobRequestId)){
+            return ResponseEntity.ok("Job request with id   Successfully  ");
+        }
+        return ResponseEntity.ok("Failed To Decline The Request");
     }
 
 

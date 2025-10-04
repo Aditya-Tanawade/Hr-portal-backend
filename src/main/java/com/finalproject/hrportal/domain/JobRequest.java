@@ -31,6 +31,7 @@ public class JobRequest {
     private int headCount;
     private double minExperience;
     private double maxExperience;
+    private String jobType;
 
 
 }

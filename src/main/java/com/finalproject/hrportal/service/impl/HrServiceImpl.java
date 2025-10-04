@@ -83,9 +83,30 @@ public class HrServiceImpl implements HrService {
         return candidateApplicationRepository.changeStatusOfCandidateToShortListed(jobRequestId,candidateId,status);
     }
 
+    @Override
+    public Integer getCountOfJobRequests(String hrId) {
+        return jobRequestRepository.getCountOfJobRequests(hrId);
+    }
 
+    @Override
+    public Integer getCountOfPostedJobs(String hrId) {
+        return jobRequestRepository.getCountOfPostedJobs( hrId);
+    }
 
+    @Override
+    public Integer getCountOfAppliedCandidates(String hrId) {
+        return candidateApplicationRepository.getCountOfAppliedCandidates(hrId);
+    }
 
+    @Override
+    public Integer getCountOfShortlistedCandidates(String hrId) {
+        return candidateApplicationRepository.getCountOfShortlistedCandidates(hrId);
+    }
+
+    @Override
+    public Integer getCountOfPendingJobRequests(String hrId) {
+        return jobRequestRepository.getCountOfPendingJobRequests(hrId);
+    }
 
 
 }

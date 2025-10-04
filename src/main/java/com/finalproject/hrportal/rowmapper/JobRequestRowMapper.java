@@ -29,7 +29,8 @@ public class JobRequestRowMapper implements RowMapper<JobRequest> {
         int headCount=rs.getInt("HEAD_COUNT");
         double minExperience=rs.getDouble("MIN_EXPERIENCE");
         double maxExperience=rs.getDouble("MAX_EXPERIENCE");
+        String jobType=rs.getString("Job_Type");
 
-        return new JobRequest(jobRequestId,teamLeaderId,projectManagerId,hrId,projectId,title,description,status,priority,minCtc,maxCtc,skills,createdAt,updatedAt,headCount,minExperience,maxExperience);
+        return new JobRequest(jobRequestId,teamLeaderId,projectManagerId,hrId,projectId,title,description,status,priority,minCtc,maxCtc,skills,createdAt,updatedAt,headCount,minExperience,maxExperience,jobType);
     }
 }

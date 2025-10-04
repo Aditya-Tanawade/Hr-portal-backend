@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JobRequestRepositoryImpl implements JobRequestRepository {
     private final JdbcTemplate jdbcTemplate;
-    private final ModelMapper modelMapper;
 
     @Override
     public List<JobRequest> getAllJobRequestByPmId(String pmId) {
@@ -62,10 +61,19 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
         if(headCount>=1){
             headCount=headCount-1;
         }
+
+        if(headCount<=0){
+            ifHeadCOuntIszero(jobRequestId);
+        }
       return jdbcTemplate.update(sql,headCount,jobRequestId);
     }
 
 
+
+    private  int ifHeadCOuntIszero(int jobRequestId){
+        String sql="update job_requests set status='CLOSED' WHERE job_request_id=?";
+        return jdbcTemplate.update(sql,jobRequestId);
+    }
 
     public int getHeadCountBasedOnJobRequestId(int jobRequestId){
         String sql="Select head_count FROM job_requests WHERE job_request_id=?";
@@ -84,7 +92,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public List<JobRequest> getAllJobRequestByHrId(String hrId) {
-        String sql="SELECT * FROM job_requests WHERE HR_ID=?";
+        String sql="SELECT * FROM job_requests WHERE HR_ID=? ";
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),hrId);
     }
 
@@ -122,6 +130,31 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
     public Integer getCountOfClosedJobRequests(String loginPmId) {
         String sql="Select Count(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status='CLOSED' ";
         return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
+    }
+
+    @Override
+    public boolean declinedTheJobRequest(int jobRequestId) {
+        String sql="Update job_requests set Status='DECLINED' where job_request_id=?";
+        return jdbcTemplate.update(sql,jobRequestId)>0;
+    }
+
+    @Override
+    public Integer getCountOfJobRequests(String hrId) {
+        String sql="Select COUNT(*) FROM job_requests WHERE hr_id=?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+    }
+
+    @Override
+    public Integer getCountOfPostedJobs(String hrId) {
+        String sql="Select COUNT(*) FROM job_requests WHERE hr_id=? AND status='POSTED'";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+
+    }
+
+    @Override
+    public Integer getCountOfPendingJobRequests(String hrId) {
+        String sql="Select COUNT(*) FROM job_requests WHERE hr_id=? AND status='FORWARDED_TO_HR'";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
     }
 
 

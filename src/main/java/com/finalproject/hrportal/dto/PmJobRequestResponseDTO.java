@@ -26,4 +26,6 @@ public class PmJobRequestResponseDTO {
     private int headCount;
     private double minExperience;
     private double maxExperience;
+    private String jobType;
+    
 }

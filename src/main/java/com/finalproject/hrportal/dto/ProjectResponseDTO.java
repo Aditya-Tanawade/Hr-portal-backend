@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectResponseDTO {
+public class    ProjectResponseDTO {
 
     private int projectId;
     private String name;
