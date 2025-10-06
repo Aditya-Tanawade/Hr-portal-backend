@@ -1,10 +1,7 @@
 package com.finalproject.hrportal.service.impl;
 
 import com.finalproject.hrportal.domain.Candidate;
-import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
-import com.finalproject.hrportal.dto.CandidateFilterRequestDTO;
-import com.finalproject.hrportal.dto.CandidateResponseDTO;
-import com.finalproject.hrportal.dto.PmJobRequestResponseDTO;
+import com.finalproject.hrportal.dto.*;
 import com.finalproject.hrportal.repository.*;
 import com.finalproject.hrportal.service.HrService;
 import lombok.RequiredArgsConstructor;
@@ -89,13 +86,28 @@ public class HrServiceImpl implements HrService {
     }
 
     @Override
-    public List<AppliedCandidatesDTO> getShortlistedCandidates(String hrId) {
-        return candidateApplicationRepository.getShortlistedCandidates(hrId);
+    public List<AppliedCandidatesDTO> getAppliedCandidates(String hrId) {
+        return candidateApplicationRepository.getAppliedCandidates(hrId);
     }
 
     @Override
-    public String addInterview(AppliedCandidatesDTO appliedCandidatesDTO) {
-        return intervieweRepository.addInterview(appliedCandidatesDTO);
+    public Integer getCountOfAssignedInterview(String hrId) {
+        return intervieweRepository.getCountOfAssignedInterview(hrId);
+    }
+
+    @Override
+    public Integer getCountOfSelectedCandidate(String hrId) {
+        return intervieweRepository.getCountOfSelectedCandidate(hrId);
+    }
+
+    @Override
+    public Integer getCountOfRejectedCandidates(String hrId) {
+        return intervieweRepository.getCountOfRejectedCandidates(hrId);
+    }
+
+    @Override
+    public List<ShortlistedCandidatesDTO> getShortlistedCandidates(String hrId) {
+        return candidateApplicationRepository.getShortlistedCandidates(hrId);
     }
 
 

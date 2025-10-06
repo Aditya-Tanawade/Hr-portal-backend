@@ -14,9 +14,24 @@ public class IntervieweRepositoryImpl implements IntervieweRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+
+
     @Override
-    public String addInterview(AppliedCandidatesDTO appliedCandidatesDTO) {
-        String sql="INSERT INTO INTERVIEWS (interview_id,application_id) VALUES (interview_id_seq.NEXTVAL,?)";
-        return "";
+    public Integer getCountOfAssignedInterview(String hrId) {
+        String sql="SELECT COUNT(*) FROM interviews WHERE hr_id=? AND status NOT IN('PENDING') ";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+
+    }
+
+    @Override
+    public Integer getCountOfSelectedCandidate(String hrId) {
+        String sql="SELECT COUNT(*) FROM interviews WHERE hr_id=? AND status NOT IN('PENDING','INTERVIEW1_REJECTED','INTERVIEW2_REJECTED','HR_REJECTED')";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
+    }
+
+    @Override
+    public Integer getCountOfRejectedCandidates(String hrId) {
+        String sql="SELECT COUNT(*) FROM interviews WHERE hr_id=? AND status IN('INTERVIEW1_REJECTED','INTERVIEW2_REJECTED','HR_REJECTED')";
+        return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
     }
 }

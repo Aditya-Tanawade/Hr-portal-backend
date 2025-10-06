@@ -1,9 +1,6 @@
 package com.finalproject.hrportal.service;
 
-import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
-import com.finalproject.hrportal.dto.CandidateFilterRequestDTO;
-import com.finalproject.hrportal.dto.CandidateResponseDTO;
-import com.finalproject.hrportal.dto.PmJobRequestResponseDTO;
+import com.finalproject.hrportal.dto.*;
 
 import java.util.List;
 
@@ -30,7 +27,13 @@ public interface HrService {
 
     List<AppliedCandidatesDTO> filterCandidates(String hrId, CandidateFilterRequestDTO request);
 
-    List<AppliedCandidatesDTO> getShortlistedCandidates(String hrId);
+    List<AppliedCandidatesDTO> getAppliedCandidates(String hrId);
 
-    String addInterview(AppliedCandidatesDTO appliedCandidatesDTO);
+    Integer getCountOfAssignedInterview(String hrId);
+
+    Integer getCountOfSelectedCandidate(String hrId);
+
+    Integer getCountOfRejectedCandidates(String hrId);
+
+    List<ShortlistedCandidatesDTO> getShortlistedCandidates(String hrId);
 }

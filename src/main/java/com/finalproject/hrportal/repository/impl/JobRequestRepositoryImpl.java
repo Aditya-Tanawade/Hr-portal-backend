@@ -21,7 +21,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public List<JobRequest> getAllJobRequestByPmId(String pmId) {
-        String sql="SELECT * FROM job_requests WHERE PROJECT_MANAGER_ID=?";
+        String sql="SELECT * FROM job_requests WHERE PROJECT_MANAGER_ID=? WHERE status NOT IN('POSTED','DRAFT')";
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),pmId);
     }
 
@@ -84,7 +84,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public List<JobRequest> getAllJobRequestByHrId(String hrId) {
-        String sql="SELECT * FROM job_requests WHERE HR_ID=? ";
+        String sql="SELECT * FROM job_requests WHERE HR_ID=?  WHERE status NOT IN ('DRAFT','SUBMITTED')";
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),hrId);
     }
 

@@ -1,6 +1,7 @@
 package com.finalproject.hrportal.repository;
 
 import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
+import com.finalproject.hrportal.dto.ShortlistedCandidatesDTO;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface CandidateApplicationRepository {
 
     List<AppliedCandidatesDTO> getCandidatesByHrId(String hrId);
 
-    List<AppliedCandidatesDTO> getShortlistedCandidates(String hrId);
+    List<AppliedCandidatesDTO> getAppliedCandidates(String hrId);
+
+    List<ShortlistedCandidatesDTO> getShortlistedCandidates(String hrId);
 }

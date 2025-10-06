@@ -1,9 +1,6 @@
 package com.finalproject.hrportal.controller;
 
-import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
-import com.finalproject.hrportal.dto.CandidateFilterRequestDTO;
-import com.finalproject.hrportal.dto.CandidateResponseDTO;
-import com.finalproject.hrportal.dto.PmJobRequestResponseDTO;
+import com.finalproject.hrportal.dto.*;
 import com.finalproject.hrportal.service.HrService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -57,14 +54,14 @@ public class HrController {
 
 
     @GetMapping("/get-shortlisted-candidates")
-    public ResponseEntity<List<AppliedCandidatesDTO>>getShortlistedCandidates(@PathVariable("hrId") String hrId){
-        return ResponseEntity.ok(hrService.getShortlistedCandidates(hrId));
+    public ResponseEntity<List<AppliedCandidatesDTO>>getAppliedCandidates(@PathVariable("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getAppliedCandidates(hrId));
     }
-
-    @PostMapping("/add-interview")
-    public ResponseEntity<String>addInterview(@RequestBody AppliedCandidatesDTO appliedCandidatesDTO){
-        return ResponseEntity.ok(hrService.addInterview(appliedCandidatesDTO));
-    }
+//
+//    @PostMapping("/add-interview")
+//    public ResponseEntity<String>addInterview(@RequestBody AppliedCandidatesDTO appliedCandidatesDTO){
+//        return ResponseEntity.ok(hrService.addInterview(appliedCandidatesDTO));
+//    }
 
     //dashboard count
     @GetMapping("/dashboard/job-requests/{hrId}")
@@ -94,5 +91,29 @@ public class HrController {
         return ResponseEntity.ok(hrService.getCountOfPendingJobRequests(hrId));
     }
 
+
+    //shortlisted-candidates
+
+
+    @GetMapping("/count/assigned-interview/{hrId}")
+    public ResponseEntity<Integer>getCountOfAssignedInterview(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfAssignedInterview(hrId));
+    }
+
+    @GetMapping("/count/selected/{hrId}")
+    public ResponseEntity<Integer>getCountOfSelectedCandidates(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfSelectedCandidate(hrId));
+    }
+
+    @GetMapping("/count/rejected/{hrId}")
+    public ResponseEntity<Integer>getCountOfRejectedCandidates(@PathVariable ("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCountOfRejectedCandidates(hrId));
+    }
+
+
+    @GetMapping("/getshortlisted/{hrId}")
+    public ResponseEntity<List<ShortlistedCandidatesDTO>>getShortlistedCandidates(@PathVariable("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getShortlistedCandidates(hrId));
+    }
 
 }
