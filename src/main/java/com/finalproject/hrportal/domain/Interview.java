@@ -12,14 +12,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Interview {
     private int interviewId;
-    private String employeeId;
-    private int candidateId;
-    private int jobRequestId;
+    private String interviewer_id;
+    private int application_id;
     private int roundNumber;
     private InterviewStatus status;
     private String remarks;
     private double score;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    private LocalDate interviewScheduledDate;
+    private String interviewLink;
 }

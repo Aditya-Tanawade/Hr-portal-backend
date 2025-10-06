@@ -14,9 +14,8 @@ public class CandidateFilterRequestDTO {
     private List<String> skills;
     private Double minExperience;
     private Double maxExperience;
-    private BigDecimal minExpectedCtc;
-    private BigDecimal maxExpectedCtc;
-    private String status;
+    private Double minExpectedCtc;
+    private Double maxExpectedCtc;
     private Integer noticePeriod;
     private Integer page = 0;
     private Integer size = 20;

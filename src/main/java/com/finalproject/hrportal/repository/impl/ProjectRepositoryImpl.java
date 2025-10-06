@@ -20,7 +20,6 @@ import java.util.List;
 public class ProjectRepositoryImpl implements ProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final ModelMapper modelMapper;
 
     private static final String GET_NEXT_PROJECT_ID="Select project_id_seq.NEXTVAL from dual";
     private static final String GET_ALL_PROJECT="SELECT * FROM projects";
@@ -42,10 +41,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         return jdbcTemplate.queryForObject(GET_NEXT_PROJECT_ID,Integer.class);
     }
 
-    @Override
-    public List<Project> getAllProjects() {
-        return jdbcTemplate.query(GET_ALL_PROJECT,new  ProjectRowMapper());
-    }
 
     @Override
     public ProjectResponseDTO getProjectByIdWithTeamLeaderName(int projectId) {
@@ -80,14 +75,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         return jdbcTemplate.queryForObject(sql,Integer.class,pmId);
     }
 
-    @Override
-    public Project getCurrentProjectById() {
-        int latestProjectId = getNextProjectId() - 1;
-        return jdbcTemplate.query(GET_PROJECT_BY_ID, new ProjectRowMapper(), latestProjectId)
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("No current project found with ID " + latestProjectId));
-    }
+
 
     @Override
     public ProjectResponseDTO createProject(ProjectRequestDTO projectRequestDTO,String loginPmId) {

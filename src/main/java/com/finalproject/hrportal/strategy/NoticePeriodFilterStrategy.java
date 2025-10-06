@@ -9,14 +9,14 @@ import java.util.Optional;
 
 @Component
 public class NoticePeriodFilterStrategy implements CandidateFilterStrategy {
-
     @Override
     public Optional<String> createCondition(CandidateFilterRequestDTO req, MapSqlParameterSource params) {
         if (req.getNoticePeriod() != null) {
             params.addValue("noticePeriod", req.getNoticePeriod());
-            return Optional.of("notice_period <= :noticePeriod");
+            return Optional.of("c.notice_period <= :noticePeriod");
         }
         return Optional.empty();
     }
 }
+
 

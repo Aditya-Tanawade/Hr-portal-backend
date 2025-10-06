@@ -25,15 +25,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),pmId);
     }
 
-    @Override
-    public JobRequest getJobRequestById(int jobRequestId) {
-        String sql ="SELECT * FROM job_requests WHERE job_request_id=?";
-        try {
-            return jdbcTemplate.queryForObject(sql, new JobRequestRowMapper(), jobRequestId);
-        } catch (EmptyResultDataAccessException ex) {
-            throw new ResourceNotFoundException("Project with ID " + jobRequestId + " not found");
-        }
-    }
+
 
 
 
@@ -102,11 +94,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
         return jdbcTemplate.update(sql,JobRequestStatus.POSTED.toString(),jobRequestId)>0;
     }
 
-    @Override
-    public List<JobRequest> getJobRequestByHrIdAndPriority(String hrId, String priority) {
-        String sql="SELECT * FROM job_requests WHERE hr_id=? AND priority=?";
-        return jdbcTemplate.query(sql,new JobRequestRowMapper(),hrId,priority);
-    }
+
 
     @Override
     public Integer getCountOfPendingRequest(String pmID) {

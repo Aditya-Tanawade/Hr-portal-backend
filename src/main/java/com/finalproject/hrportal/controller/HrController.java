@@ -1,5 +1,6 @@
 package com.finalproject.hrportal.controller;
 
+import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
 import com.finalproject.hrportal.dto.CandidateFilterRequestDTO;
 import com.finalproject.hrportal.dto.CandidateResponseDTO;
 import com.finalproject.hrportal.dto.PmJobRequestResponseDTO;
@@ -25,52 +26,45 @@ public class HrController {
         return ResponseEntity.ok(hrService.getAllJobRequestByHrId(hrId));
     }
 
-    @GetMapping("/job-request/{jobRequestId}")
-    public ResponseEntity<PmJobRequestResponseDTO>getJobRequestById(@PathVariable ("jobRequestId") int jobRequestId){
-        return ResponseEntity.ok(hrService.getJobRequestById(jobRequestId));
-    }
 
     @PatchMapping("/post/{jobRequestId}")
     public ResponseEntity<String>postJob(@PathVariable ("jobRequestId") int jobRequestId){
         if(hrService.postJobOnPortal(jobRequestId)){
-            return ResponseEntity.ok("JOB Posted ON Portal");
+            return ResponseEntity.status(HttpStatus.OK).body("Job Posted ON Portal");
         }
-        return ResponseEntity.ok("Failed To Post JOb ON Portal");
-    }
-
-    @GetMapping("/job-requests/{priority}")
-    public ResponseEntity<List<PmJobRequestResponseDTO>> getAllJobRequestByHrIdAndPriority(@RequestParam String hrId,@PathVariable("priority")String priority){
-        return ResponseEntity.ok(hrService.getJobRequestByHrIdAndPriority(hrId,priority));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed To Post JOb ON Portal");
     }
 
 
-
-
-    @GetMapping("/candidate/{candidateId}")
-    public ResponseEntity<CandidateResponseDTO>fetchCandidateByCandidateId(@PathVariable ("candidateId") int candidateId){
-        return ResponseEntity.ok(hrService.getCandidateByCandidateId(candidateId));
+    @GetMapping("/filter-candidates/search/{hrId}")
+    public ResponseEntity<List<AppliedCandidatesDTO>>getCandidatesByHrId(@PathVariable("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getCandidatesByHrId(hrId));
     }
 
-    @GetMapping("/get-candidates/search/{jobRequestId}")
-    public ResponseEntity<List<CandidateResponseDTO>>getCandidatesBasedOnJobRequest(@PathVariable("jobRequestId") int jobRequestId){
-        return ResponseEntity.ok(hrService.getCandidatesByJobRequestId(jobRequestId));
-    }
-
-    @PostMapping("/get-candidates/search/{jobRequestId}")
-    public ResponseEntity<List<CandidateResponseDTO>> searchCandidatesForJob(@PathVariable("jobRequestId") int jobRequestId, @RequestBody CandidateFilterRequestDTO request) {
-        return ResponseEntity.ok(hrService.searchCandidates(jobRequestId, request));
+    @PostMapping("/filter-candidates/search/{hrId}")
+    public ResponseEntity<List<AppliedCandidatesDTO>> filterCandidates(@PathVariable("hrId") String hrId, @RequestBody CandidateFilterRequestDTO request) {
+        return ResponseEntity.ok(hrService.filterCandidates(hrId, request));
     }
 
 
-    @PatchMapping("/get-candidates/search/{jobRequestId}/{candidateId}")
-    public ResponseEntity<String>changeStatusOfCandidateToShortListed(@PathVariable("jobRequestId") int jobRequestId,@PathVariable("candidateId")int candidateId,@RequestParam String status){
-        if(hrService.changeStatusOfCandidateToShortListed(jobRequestId,candidateId,status)){
-            return ResponseEntity.ok("Candidate " +  status);
+    @PatchMapping("/candidates/change-status/{applicationId}")
+    public ResponseEntity<String>changeStatusOfCandidateToShortListed(@PathVariable("applicationId") int applicationId,@RequestParam String status){
+        if(hrService.changeStatusOfCandidateToShortListed(applicationId,status)){
+            return ResponseEntity.status(HttpStatus.OK).body("Candidate " + status );
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error While ShortListing Candidate");
     }
 
 
+    @GetMapping("/get-shortlisted-candidates")
+    public ResponseEntity<List<AppliedCandidatesDTO>>getShortlistedCandidates(@PathVariable("hrId") String hrId){
+        return ResponseEntity.ok(hrService.getShortlistedCandidates(hrId));
+    }
+
+    @PostMapping("/add-interview")
+    public ResponseEntity<String>addInterview(@RequestBody AppliedCandidatesDTO appliedCandidatesDTO){
+        return ResponseEntity.ok(hrService.addInterview(appliedCandidatesDTO));
+    }
 
     //dashboard count
     @GetMapping("/dashboard/job-requests/{hrId}")
@@ -82,6 +76,7 @@ public class HrController {
     public ResponseEntity<Integer>getCountOfPostedJobs(@PathVariable ("hrId") String hrId){
         return ResponseEntity.ok(hrService.getCountOfPostedJobs(hrId));
     }
+
 
 
     @GetMapping("/dashboard/applied-candidates/{hrId}")

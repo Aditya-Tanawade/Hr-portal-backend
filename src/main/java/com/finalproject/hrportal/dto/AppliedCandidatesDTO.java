@@ -1,9 +1,12 @@
 package com.finalproject.hrportal.dto;
 
 
+import com.finalproject.hrportal.domain.enums.CandidateGender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -11,14 +14,19 @@ import lombok.NoArgsConstructor;
 public class AppliedCandidatesDTO {
 
     private int candidateId;
+    private String email;
+    private String fullName;
+    private String gender;
+    private double expectedCtc;
+    private String resumePath;
+    private double totalExperience;
+    private int noticePeriod;
+    private String skills;
+    private String profileRole;
+    private int applicationId;
+    private LocalDate appliedAt;
+    private int jobRequestId;
+    private String title;
 
-//    select c.candidate_Id,c.email,c.full_name,c.gender,c.expected_ctc,c.resume_path,
-//    c.total_experience,c.skills,c.profile_role,c.notice_period,ca.application_id,ca.applied_at,j.title
-//    From Candidates c
-//    JOIN candidate_applications ca
-//    ON c.candidate_id=ca.candidate_id
-//    JOIN Job_requests j
-//    ON ca.job_request_id=j.job_request_id
-//    ;
 
 }

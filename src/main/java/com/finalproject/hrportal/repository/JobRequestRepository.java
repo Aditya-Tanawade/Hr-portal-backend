@@ -8,14 +8,11 @@ import java.util.List;
 public interface JobRequestRepository {
 
    List<JobRequest> getAllJobRequestByPmId(String pmId);
-   JobRequest getJobRequestById(int jobRequestId);
    boolean forwardToHr(HrForwardDTO hrForwardDTO, int jobRequestId);
    int getHeadCountBasedOnJobRequestId(int jobRequestId);
-   int getProjectIdByJobRequestId(int jobRequestId);
    int updateHeadCount(int jobRequestId);
    List<JobRequest> getAllJobRequestByHrId(String hrId);
    boolean postJobOnPortal(int jobRequestId);
-   List<JobRequest> getJobRequestByHrIdAndPriority(String hrId, String priority);
 
     Integer getCountOfPendingRequest(String pmID);
 

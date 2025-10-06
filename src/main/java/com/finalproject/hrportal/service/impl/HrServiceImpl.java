@@ -1,6 +1,7 @@
 package com.finalproject.hrportal.service.impl;
 
 import com.finalproject.hrportal.domain.Candidate;
+import com.finalproject.hrportal.dto.AppliedCandidatesDTO;
 import com.finalproject.hrportal.dto.CandidateFilterRequestDTO;
 import com.finalproject.hrportal.dto.CandidateResponseDTO;
 import com.finalproject.hrportal.dto.PmJobRequestResponseDTO;
@@ -23,6 +24,7 @@ public class HrServiceImpl implements HrService {
     private final JobRequestRepository jobRequestRepository;
     private final CandidateRepository candidateRepository;
     private final CandidateApplicationRepository candidateApplicationRepository;
+    private final IntervieweRepository intervieweRepository;
 
 
     @Override
@@ -33,24 +35,10 @@ public class HrServiceImpl implements HrService {
                 .map(jobRequest -> modelMapper.map(jobRequest, PmJobRequestResponseDTO.class))
                 .collect(Collectors.toList());
     }
-    @Override
-    public PmJobRequestResponseDTO getJobRequestById(int jobRequestId) {
-        return modelMapper.map(jobRequestRepository.getJobRequestById(jobRequestId),PmJobRequestResponseDTO.class);
-    }
 
-    @Override
-    public List<CandidateResponseDTO> searchCandidates(int jobRequestId,CandidateFilterRequestDTO req) {
 
-        return candidateRepository.searchCandidates(jobRequestId, req)
-                .stream()
-                .map(candidate -> modelMapper.map(candidate, CandidateResponseDTO.class))
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public CandidateResponseDTO getCandidateByCandidateId(int candidateId) {
-        return modelMapper.map(candidateRepository.getCandidateById(candidateId),CandidateResponseDTO.class);
-    }
+
 
 
 
@@ -59,28 +47,10 @@ public class HrServiceImpl implements HrService {
         return jobRequestRepository.postJobOnPortal(jobRequestId);
     }
 
-    @Override
-    public List<PmJobRequestResponseDTO> getJobRequestByHrIdAndPriority(String hrId, String priority) {
-        return jobRequestRepository.getJobRequestByHrIdAndPriority(hrId,priority)
-                .stream()
-                .map(jobRequest -> modelMapper.map(jobRequest, PmJobRequestResponseDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CandidateResponseDTO> getCandidatesByJobRequestId(int jobRequestId) {
-        List<Candidate>candidates=new ArrayList<>();
-        List<Integer>candidatesId=candidateApplicationRepository.getCandidateIdsBasedOnJobRequestId(jobRequestId);
-        for(int i:candidatesId){
-            candidates.add(candidateRepository.getCandidateById(i));
-        }
-        return candidates.stream().map(c->modelMapper.map(c,CandidateResponseDTO.class)).collect(Collectors.toList());
-    }
 
 
-    public boolean changeStatusOfCandidateToShortListed(int jobRequestId, int candidateId,String status){
-        System.out.println("In Service"+ candidateApplicationRepository.changeStatusOfCandidateToShortListed(jobRequestId,candidateId,status));
-        return candidateApplicationRepository.changeStatusOfCandidateToShortListed(jobRequestId,candidateId,status);
+    public boolean changeStatusOfCandidateToShortListed( int applicationId,String status){
+        return candidateApplicationRepository.changeStatusOfCandidateToShortListed(applicationId,status);
     }
 
     @Override
@@ -106,6 +76,26 @@ public class HrServiceImpl implements HrService {
     @Override
     public Integer getCountOfPendingJobRequests(String hrId) {
         return jobRequestRepository.getCountOfPendingJobRequests(hrId);
+    }
+
+    @Override
+    public List<AppliedCandidatesDTO> getCandidatesByHrId(String hrId) {
+        return candidateApplicationRepository.getCandidatesByHrId(hrId);
+    }
+
+    @Override
+    public List<AppliedCandidatesDTO> filterCandidates(String hrId, CandidateFilterRequestDTO request) {
+        return candidateRepository.filterCandidates(hrId, request);
+    }
+
+    @Override
+    public List<AppliedCandidatesDTO> getShortlistedCandidates(String hrId) {
+        return candidateApplicationRepository.getShortlistedCandidates(hrId);
+    }
+
+    @Override
+    public String addInterview(AppliedCandidatesDTO appliedCandidatesDTO) {
+        return intervieweRepository.addInterview(appliedCandidatesDTO);
     }
 
 

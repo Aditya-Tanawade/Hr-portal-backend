@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class SkillFilterStrategy implements CandidateFilterStrategy {
-
     @Override
     public Optional<String> createCondition(CandidateFilterRequestDTO req, MapSqlParameterSource params) {
         if (req.getSkills() == null || req.getSkills().isEmpty()) return Optional.empty();
@@ -21,13 +20,13 @@ public class SkillFilterStrategy implements CandidateFilterStrategy {
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
+
         if (skills.isEmpty()) return Optional.empty();
 
-        // Build a condition like: (LOWER(skills) LIKE :skill0 OR LOWER(skills) LIKE :skill1 ...)
         StringBuilder cond = new StringBuilder("(");
         for (int i = 0; i < skills.size(); i++) {
             String param = "skill" + i;
-            cond.append("LOWER(skills) LIKE :" + param);
+            cond.append("LOWER(c.skills) LIKE :" + param);
             params.addValue(param, "%" + skills.get(i).toLowerCase() + "%");
             if (i < skills.size() - 1) cond.append(" OR ");
         }
@@ -35,4 +34,5 @@ public class SkillFilterStrategy implements CandidateFilterStrategy {
         return Optional.of(cond.toString());
     }
 }
+
 

@@ -15,14 +15,16 @@ public class CtcFilterStrategy implements CandidateFilterStrategy {
         List<String> parts = new ArrayList<>();
 
         if (req.getMinExpectedCtc() != null) {
-            parts.add("expected_ctc >= :minCtc");
+            parts.add("c.expected_ctc >= :minCtc");
             params.addValue("minCtc", req.getMinExpectedCtc());
         }
         if (req.getMaxExpectedCtc() != null) {
-            parts.add("expected_ctc <= :maxCtc");
+            parts.add("c.expected_ctc <= :maxCtc");
             params.addValue("maxCtc", req.getMaxExpectedCtc());
         }
 
         return parts.isEmpty() ? Optional.empty() : Optional.of(String.join(" AND ", parts));
     }
 }
+
+

@@ -15,15 +15,14 @@ public class ExperienceFilterStrategy implements CandidateFilterStrategy {
         List<String> parts = new ArrayList<>();
 
         if (req.getMinExperience() != null) {
-            parts.add("total_experience >= :minExp");
+            parts.add("c.total_experience >= :minExp");
             params.addValue("minExp", req.getMinExperience());
         }
         if (req.getMaxExperience() != null) {
-            parts.add("total_experience <= :maxExp");
+            parts.add("c.total_experience <= :maxExp");
             params.addValue("maxExp", req.getMaxExperience());
         }
 
         return parts.isEmpty() ? Optional.empty() : Optional.of(String.join(" AND ", parts));
     }
 }
-
