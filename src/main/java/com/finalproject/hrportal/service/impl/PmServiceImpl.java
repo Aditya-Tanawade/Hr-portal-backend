@@ -116,4 +116,9 @@ public class PmServiceImpl implements PmService {
     public boolean declinedTheJobRequest(int jobRequestId) {
         return jobRequestRepository.declinedTheJobRequest(jobRequestId);
     }
+
+    @Override
+    public Integer getCountOfDeclinedJobRequests(String loginPmId) {
+        return jobRequestRepository.getCountOfDeclinedJobRequests(loginPmId);
+    }
 }

@@ -123,9 +123,14 @@ public class PmController {
         return ResponseEntity.ok(pmService.getCountOfApprovedJobRequests(loginPmId));
     }
 
-    @GetMapping("/count/job-request/declined/{loginPmId}")
+    @GetMapping("/count/job-request/closed/{loginPmId}")
     public ResponseEntity<Integer>getCountOfClosedJobRequests(@PathVariable ("loginPmId") String loginPmId){
         return ResponseEntity.ok(pmService.getCountOfClosedJobRequests(loginPmId));
+    }
+
+    @GetMapping("/count/job-request/declined/{loginPmId}")
+    public ResponseEntity<Integer>getCountOfDeclinedJobRequests(@PathVariable ("loginPmId") String loginPmId){
+        return ResponseEntity.ok(pmService.getCountOfDeclinedJobRequests(loginPmId));
     }
 
 

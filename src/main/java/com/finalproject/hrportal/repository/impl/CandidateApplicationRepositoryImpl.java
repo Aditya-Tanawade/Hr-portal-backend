@@ -51,8 +51,6 @@ public class CandidateApplicationRepositoryImpl implements CandidateApplicationR
                 "ON ca.job_request_id=j.job_request_id\n" +
                 "WHERE j.job_request_id IN(SELECT j.job_request_id from job_requests j where j.HR_id=? AND j.status='POSTED')\n" +
                 "AND ca.status='APPLIED'";
-
-
         return jdbcTemplate.query(sql,new AppliedCandidateRowMapper(),hrId);
 
     }
@@ -73,16 +71,16 @@ public class CandidateApplicationRepositoryImpl implements CandidateApplicationR
 
     @Override
     public List<ShortlistedCandidatesDTO> getShortlistedCandidates(String hrId) {
-        String sql="select c.candidate_Id,c.email,c.full_name,c.gender,c.expected_ctc,c.resume_path,\n" +
-                "c.total_experience,c.skills,c.profile_role,c.notice_period,ca.application_id,ca.applied_at,j.job_request_id,j.title,i.status,i.remarks,i.score\n" +
-                "From Candidates c\n" +
-                "JOIN candidate_applications ca\n" +
-                "ON c.candidate_id=ca.candidate_id\n" +
-                "JOIN Job_requests j\n" +
-                "ON ca.job_request_id=j.job_request_id\n" +
-                "JOIN interviews i\n"+
-                "ON ca.application_id=i.application_id"+
-                "WHERE j.job_request_id IN(SELECT j.job_request_id from job_requests j where j.HR_id=? AND j.status='POSTED')\n" +
+        String sql="select c.candidate_Id,c.email,c.full_name,c.gender,c.expected_ctc,c.resume_path," +
+                "c.total_experience,c.skills,c.profile_role,c.notice_period,ca.application_id,ca.applied_at,j.job_request_id,j.title,i.status,i.remarks,i.score " +
+                "From Candidates c " +
+                "JOIN candidate_applications ca " +
+                "ON c.candidate_id=ca.candidate_id " +
+                "JOIN Job_requests j " +
+                "ON ca.job_request_id=j.job_request_id " +
+                "JOIN interviews i "+
+                "ON ca.application_id=i.application_id "+
+                "WHERE j.job_request_id IN(SELECT j.job_request_id from job_requests j where j.HR_id=? AND j.status='POSTED') " +
                 "AND ca.status='SHORTLISTED'";
         return jdbcTemplate.query(sql,new ShortlistedCandidatesRowMapper(),hrId);
     }

@@ -29,4 +29,6 @@ public interface PmService {
     List<EmployeeResponseDTO> getAllTeamMembers(int projectId);
 
     boolean declinedTheJobRequest(int jobRequestId);
+
+    Integer getCountOfDeclinedJobRequests(String loginPmId);
 }

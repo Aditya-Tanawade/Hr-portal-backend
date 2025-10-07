@@ -29,4 +29,6 @@ public interface JobRequestRepository {
    Integer getCountOfPostedJobs(String hrId);
 
    Integer getCountOfPendingJobRequests(String hrId);
+
+    Integer getCountOfDeclinedJobRequests(String loginPmId);
 }

@@ -21,13 +21,9 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public List<JobRequest> getAllJobRequestByPmId(String pmId) {
-        String sql="SELECT * FROM job_requests WHERE PROJECT_MANAGER_ID=? WHERE status NOT IN('POSTED','DRAFT')";
+        String sql="SELECT * FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status NOT IN('POSTED','DRAFT')";
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),pmId);
     }
-
-
-
-
 
     @Override
     public boolean forwardToHr(HrForwardDTO hrForwardDTO, int jobRequestId) {
@@ -84,7 +80,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public List<JobRequest> getAllJobRequestByHrId(String hrId) {
-        String sql="SELECT * FROM job_requests WHERE HR_ID=?  WHERE status NOT IN ('DRAFT','SUBMITTED')";
+        String sql="SELECT * FROM job_requests WHERE HR_ID=?  AND status NOT IN ('DRAFT','SUBMITTED')";
         return jdbcTemplate.query(sql, new JobRequestRowMapper(),hrId);
     }
 
@@ -104,7 +100,7 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
 
     @Override
     public Integer getTotalCountOfAllJobRequests(String loginPmId) {
-        String sql="Select COUNT(*) FROM job_requests WHERE PROJECT_MANAGER_ID=?";
+        String sql="Select COUNT(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status NOT IN('POSTED','DRAFT')";
         return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
     }
 
@@ -117,6 +113,12 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
     @Override
     public Integer getCountOfClosedJobRequests(String loginPmId) {
         String sql="Select Count(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status='CLOSED' ";
+        return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
+    }
+
+    @Override
+    public Integer getCountOfDeclinedJobRequests(String loginPmId) {
+        String sql="Select Count(*) FROM job_requests WHERE PROJECT_MANAGER_ID=? AND status='DECLINED' ";
         return jdbcTemplate.queryForObject(sql,Integer.class,loginPmId);
     }
 
@@ -144,6 +146,8 @@ public class JobRequestRepositoryImpl implements JobRequestRepository {
         String sql="Select COUNT(*) FROM job_requests WHERE hr_id=? AND status='FORWARDED_TO_HR'";
         return jdbcTemplate.queryForObject(sql,Integer.class,hrId);
     }
+
+
 
 
 }
